@@ -4,13 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import kotlinx.android.synthetic.main.after_login.*
 
 
 class AccDatabase (context: Context): SQLiteOpenHelper(context, dbname, factory, version){
 
     override fun onCreate(p0: SQLiteDatabase?){
-        p0?.execSQL("create table info(id integer primary key autoincrement,"+
-                "username varchar(15), pass varchar(15),points integer)")
+        p0?.execSQL("create table info(username varchar(15) primary key,"+
+                "pass varchar(15),points integer)")
         /*p0?.execSQL("create table newUser(username varchar(15) primary key autoincrement," +
                 "pass varchar(15));")
         p0?.execSQL("create table info(username varchar(15)," +
@@ -18,8 +19,6 @@ class AccDatabase (context: Context): SQLiteOpenHelper(context, dbname, factory,
     }
 
     override fun onUpgrade(p0: SQLiteDatabase?, oldVersion: Int, newVersion: Int){
-        p0?.execSQL("DROP TABLE IF EXISTS 'info'")
-        onCreate(p0)
     }
 
     fun insertUserData(username: String , pass: String){
@@ -74,28 +73,42 @@ class AccDatabase (context: Context): SQLiteOpenHelper(context, dbname, factory,
             }while (result.moveToNext())
         }
         result.close()
-        db.close()
+        //db.close()
         return list
     }
-    fun increasePoint(username: String , pass: String,points: Int){
-        val db: SQLiteDatabase =  writableDatabase
-        val info: ContentValues = ContentValues()
-        val query = "Select * from info where username = '$username' "
-        val result = db.rawQuery(query,null)
-        if(result.count<=0){
-            val totalpoint = points + result.getString(result.getColumnIndex("points")).toInt()
-
-            //val query1 = "update info set values points = "+ totalpoint.toString().toInt() +" where username = '$username'"
-            info.put("points", totalpoint.toString().toInt())
-
-            db.insert("info", null, info)
-            db.close()
-
-            //db.rawQuery(query1,null)
-            //db.close()
+    fun increasePoint(username: String ,points: String){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        var data = retrieveData(username)
+        for(i in 0..(data.size-1)){
+            val totalpoint = points.toInt() + data.get(i).points.toInt()
+            cv.put("points", totalpoint)
+            db.update("info",cv,"username = '$username' ",null)
         }
+        db.close()
+        }
+    fun changePass(username: String, pass: String){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        var data = retrieveData(username)
+        for(i in 0..(data.size-1)){
+            cv.put("pass", pass)
+            db.update("info",cv,"username = '$username' ",null)
+        }
+        db.close()
     }
-    fun retrievePoints(username: String) : MutableList<User_details>{
+    fun resetPoint(username: String){
+        val db = this.writableDatabase
+        val cv = ContentValues()
+        var data = retrieveData(username)
+        for(i in 0..(data.size-1)){
+            val totalpoint = 0
+            cv.put("points", totalpoint)
+            db.update("info",cv,"username = '$username' ",null)
+        }
+        db.close()
+    }
+    /*fun retrievePoints(username: String) : MutableList<User_details>{
         var list : MutableList<User_details> = ArrayList()
 
         val db = this.readableDatabase
@@ -111,9 +124,11 @@ class AccDatabase (context: Context): SQLiteOpenHelper(context, dbname, factory,
             }while (result.moveToNext())
         }
         result.close()
-        db.close()
+        //db.close()
         return list
-    }    companion object{
+    }    */
+
+    companion object{
 
         internal val dbname = "userDB"
         internal val factory = null

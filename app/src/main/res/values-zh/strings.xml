@@ -21,4 +21,6 @@
     <string name="log_in">登入</string>
     <string name="switches">学习模式</string>
     <string name="registration">注册</string>
+    <string name="confirm">确认</string>
+
 </resources>

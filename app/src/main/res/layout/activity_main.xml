@@ -134,4 +134,8 @@
         android:id="@+id/user_setting"
         android:visibility="gone"
         layout="@layout/user_setting" />
+    <include
+        android:id="@+id/change_password_page"
+        android:visibility="gone"
+        layout="@layout/change_password" />
 </RelativeLayout>

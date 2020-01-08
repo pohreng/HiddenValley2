@@ -21,4 +21,5 @@
     <string name="log_in">LOG MASUK</string>
     <string name="switches">Mod Pembelajaran</string>
     <string name="registration">Pendaftaran</string>
+    <string name="confirm">Mengesahkan</string>
 </resources>

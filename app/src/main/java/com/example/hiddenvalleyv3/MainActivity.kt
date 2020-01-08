@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.after_login.*
 import kotlinx.android.synthetic.main.cal_game.*
+import kotlinx.android.synthetic.main.change_password.*
 import kotlinx.android.synthetic.main.game.*
 import kotlinx.android.synthetic.main.login.*
 import kotlinx.android.synthetic.main.number_game.*
@@ -26,6 +27,9 @@ import kotlinx.android.synthetic.main.user_registration.*
 import kotlinx.android.synthetic.main.user_registration.pass
 import kotlinx.android.synthetic.main.user_registration.username
 import kotlinx.android.synthetic.main.user_setting.*
+import kotlinx.android.synthetic.main.user_setting.btn_point1
+import kotlinx.android.synthetic.main.user_setting.btn_setting1
+import kotlinx.android.synthetic.main.user_setting.current_username2
 import java.util.*
 
 class  MainActivity : AppCompatActivity() {
@@ -51,6 +55,27 @@ class  MainActivity : AppCompatActivity() {
 
         showHome()
 
+
+        val clickerLetter1 = findViewById<ImageView>(R.id.img1)
+        val clickerNumber1 = findViewById<ImageView>(R.id.img2)
+        val clickerMatch1 = findViewById<ImageView>(R.id.img3)
+        val clickerCal1 = findViewById<ImageView>(R.id.img4)
+
+
+        clickerLetter1.setOnClickListener{
+            Toast.makeText(this, "Please Log In First", Toast.LENGTH_SHORT).show()
+        }
+        clickerNumber1.setOnClickListener{
+            Toast.makeText(this, "Please Log In First", Toast.LENGTH_SHORT).show()
+        }
+        clickerMatch1.setOnClickListener{
+            Toast.makeText(this, "Please Log In First", Toast.LENGTH_SHORT).show()
+        }
+        clickerCal1.setOnClickListener{
+            Toast.makeText(this, "Please Log In First", Toast.LENGTH_SHORT).show()
+        }
+
+
         registration_button.setOnClickListener{
             showUserReg()
         }
@@ -74,7 +99,12 @@ class  MainActivity : AppCompatActivity() {
             } else
                 Toast.makeText(this, "Username cannot be empty", Toast.LENGTH_SHORT).show()
         }
-
+        back_button.setOnClickListener{
+            showHome()
+        }
+        back_button1.setOnClickListener{
+            showHome()
+        }
         login.setOnClickListener{
             login()
         }
@@ -176,7 +206,7 @@ class  MainActivity : AppCompatActivity() {
         if(ans == total) {
             Toast.makeText(this, "Answer Correct", Toast.LENGTH_SHORT).show()
             val plusPoints = 10 + streak
-            handler.increasePoint(login_username.text.toString(),login_pass.text.toString(),plusPoints)
+            handler.increasePoint(login_username.text.toString(),plusPoints.toString())
             val newStreak = streak + 0
             cal_game_streak.text = newStreak.toString()
             rollDice()
@@ -220,7 +250,7 @@ class  MainActivity : AppCompatActivity() {
         if(ans == num1) {
             Toast.makeText(this, "Answer Correct", Toast.LENGTH_SHORT).show()
             val plusPoints = 10 + streak
-            handler.increasePoint(login_username.text.toString(),login_pass.text.toString(),plusPoints)
+            handler.increasePoint(login_username.text.toString(),plusPoints.toString())
             val newStreak = streak + 0
             num_game_streak.text = newStreak.toString()
             rollStar()
@@ -322,6 +352,36 @@ class  MainActivity : AppCompatActivity() {
         profilePic.setImageResource(newProfilePic)
     }*/
 
+    private fun changePassword() {
+        showChangePass()
+        confirm.setOnClickListener {
+            if (login_pass.text.toString() == old_pass.text.toString() ) {
+                if (change_pass.text.toString() == change_password.text.toString()) {
+                    handler.changePass(login_username.text.toString(), change_pass.text.toString())
+                    Toast.makeText(this, "Change Successful,Login Again", Toast.LENGTH_SHORT).show()
+                    recreate()
+                } else {
+                    Toast.makeText(this, "Second Password Incorrect", Toast.LENGTH_SHORT).show()
+                }
+            }else {
+                Toast.makeText(this, "Wrong Old Password", Toast.LENGTH_SHORT).show()
+            }
+        }
+        back.setOnClickListener{
+            setting()
+        }
+        val clickerPic = findViewById<ImageView>(R.id.current_profile12)
+        clickerPic.setOnClickListener{
+            afterLoginPages()
+        }
+
+        btn_point.setOnClickListener{
+            profile()
+        }
+        btn_setting.setOnClickListener{
+            setting()
+        }
+    }
     private fun changeLang(){
         val listItems = arrayOf("华语","Malay")
 
@@ -364,16 +424,14 @@ class  MainActivity : AppCompatActivity() {
         var data1 = handler.retrieveData(login_username.text.toString())
         showProfile()
         current_username1.text = ""
+        current_points.text = ""
         for(i in 0..(data1.size-1)){
             current_username1.append(data1.get(i).username)
+            current_points.append(data1.get(i).points.toString())
         }
-
-
-        var data = handler.retrievePoints(login_username.text.toString())
-        current_points.text = ""
-        for(i in 0..(data.size-1)){
-            current_points.append(data.get(i).points.toString())
-        }
+        //var data = handler.retrievePoints(login_username.text.toString())
+        /*for(i in 0..(data.size-1)){
+        }*/
 
         val clickerPic = findViewById<ImageView>(R.id.current_profile12)
         clickerPic.setOnClickListener{
@@ -399,7 +457,12 @@ class  MainActivity : AppCompatActivity() {
             afterLoginPages()
         }
         val btnChg = findViewById<Button>(R.id.change_language)
-
+        reset_points.setOnClickListener{
+            confirmResetPoint()
+        }
+        chg_pass.setOnClickListener{
+            changePassword()
+        }
         btnChg.setOnClickListener{
             changeLang()
         }
@@ -413,6 +476,27 @@ class  MainActivity : AppCompatActivity() {
             setting()
         }
     }
+
+    private fun confirmResetPoint(){
+        val listItems = arrayOf("Confirm","Cancel")
+
+        val mBuilder = AlertDialog.Builder(this@MainActivity)
+        mBuilder.setTitle("Choose Language")
+        mBuilder.setSingleChoiceItems(listItems,-1){dialog, which ->
+            if(which == 0){
+                handler.resetPoint(login_username.text.toString())
+                Toast.makeText(this, "POINT RESET", Toast.LENGTH_SHORT).show()
+                setting()
+            }
+            else if(which == 1){
+                setting()
+            }
+            dialog.dismiss()
+        }
+        val mDialog = mBuilder.create()
+        mDialog.show()
+    }
+
     private fun showUserReg(){
         let_game.visibility=View.GONE
         match_game.visibility=View.GONE
@@ -424,6 +508,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun showLogin(){
         let_game.visibility=View.GONE
@@ -436,6 +521,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun showHome(){
         let_game.visibility=View.GONE
@@ -448,6 +534,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun afterLoginPages(){
         let_game.visibility=View.GONE
@@ -460,6 +547,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.VISIBLE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun showProfile(){
         let_game.visibility=View.GONE
@@ -472,6 +560,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.VISIBLE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun showUserSetting(){
         let_game.visibility=View.GONE
@@ -484,6 +573,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.VISIBLE
+        change_password_page.visibility=View.GONE
     }
 
     private fun showNumGame(){
@@ -497,6 +587,7 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
     private fun showLetGame(){
         let_game.visibility=View.VISIBLE
@@ -509,7 +600,9 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
     }
+
     private fun showMatchGame(){
         let_game.visibility=View.GONE
         match_game.visibility=View.VISIBLE
@@ -522,7 +615,8 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
-        user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
+
     }
     private fun showCalGame(){
         let_game.visibility=View.GONE
@@ -535,5 +629,19 @@ class  MainActivity : AppCompatActivity() {
         afterLogin_layout.visibility=View.GONE
         user_profile.visibility=View.GONE
         user_setting.visibility=View.GONE
+        change_password_page.visibility=View.GONE
+    }
+    private fun showChangePass(){
+        let_game.visibility=View.GONE
+        match_game.visibility=View.GONE
+        num_game.visibility=View.GONE
+        cal_game.visibility=View.GONE
+        registration_layout.visibility=View.GONE
+        login_layout.visibility=View.GONE
+        main123.visibility=View.GONE
+        afterLogin_layout.visibility=View.GONE
+        user_profile.visibility=View.GONE
+        user_setting.visibility=View.GONE
+        change_password_page.visibility=View.VISIBLE
     }
 }

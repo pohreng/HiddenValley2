@@ -62,14 +62,14 @@
 
             <Button
                 android:id="@+id/btn_point"
-                android:layout_width="210dp"
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_round_edge"
                 android:fontFamily="fantasy"
                 android:text="@string/points" />
             <Button
                 android:id="@+id/btn_setting"
-                android:layout_width="210dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="fantasy"
                 android:background="@drawable/btn_round_edge"

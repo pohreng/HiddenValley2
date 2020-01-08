@@ -20,5 +20,8 @@
     <string name="log_in">LOG IN</string>
     <string name="switches">Learning Mode</string>
     <string name="registration">Registration</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="new_password">New Password</string>
+    <string name="old_password">Old Password</string>
 
 </resources>
