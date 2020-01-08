@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HiddenValleyV3</string>
+    <string name="welcome">欢迎</string>
+    <string name="points">分数</string>
+    <string name="setting">设定</string>
+    <string name="change_password">更换密码</string>
+    <string name="reset_points">重置分数</string>
+    <string name="change_language">更换语言</string>
+    <string name="sign_out">登出</string>
+    <string name="username">用户名字</string>
+    <string name="password">密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="sign_up">注册</string>
+    <string name="back">上一页</string>
+    <string name="star">星星</string>
+    <string name="answer">答案</string>
+    <string name="streak">连对题数:</string>
+    <string name="quit">退出</string>
+    <string name="roll">转动</string>
+    <string name="log_in">登入</string>
+    <string name="switches">学习模式</string>
+    <string name="registration">注册</string>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HiddenValleyV3</string>
+    <string name="welcome">SELAMAT DATANG</string>
+    <string name="points">POINTS</string>
+    <string name="setting">SETTING</string>
+    <string name="change_password">Tukar kata laluan</string>
+    <string name="reset_points">Tetapkan semula Mata</string>
+    <string name="change_language">TUKAR BAHASA</string>
+    <string name="sign_out">Keluar</string>
+    <string name="username">Nama pengguna</string>
+    <string name="password">Kata laluan</string>
+    <string name="confirm_password">Sahkan Kata Laluan</string>
+    <string name="sign_up">DAFTAR</string>
+    <string name="back">KEMBALI</string>
+    <string name="star">STAR</string>
+    <string name="answer">JAWAPAN</string>
+    <string name="streak">Streak:</string>
+    <string name="quit">KELUAR</string>
+    <string name="roll">GULUNG</string>
+    <string name="log_in">LOG MASUK</string>
+    <string name="switches">Mod Pembelajaran</string>
+    <string name="registration">Pendaftaran</string>
+</resources>
